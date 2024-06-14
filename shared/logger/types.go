@@ -10,8 +10,7 @@ type Ctx logrus.Fields
 // Log contains the logger used by all the logging functions.
 var Log Logger
 
-// Logger is the main logging interface.
-type Logger interface {
+type Entry interface {
 	Panic(msg string, args ...Ctx)
 	Fatal(msg string, args ...Ctx)
 	Error(msg string, args ...Ctx)
@@ -19,7 +18,13 @@ type Logger interface {
 	Info(msg string, args ...Ctx)
 	Debug(msg string, args ...Ctx)
 	Trace(msg string, args ...Ctx)
-	AddContext(Ctx) Logger
+}
+
+// Logger is the main logging interface.
+type Logger interface {
+	Entry
+	AddContext(Ctx) Entry
+	GetLevel() logrus.Level
 }
 
 // targetLogger represents the subset of logrus.Logger and logrus.Entry that we care about.
@@ -32,4 +37,5 @@ type targetLogger interface {
 	Debug(args ...interface{})
 	Trace(args ...interface{})
 	WithFields(fields logrus.Fields) *logrus.Entry
+	GetLevel() logrus.Level
 }
