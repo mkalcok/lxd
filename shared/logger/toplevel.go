@@ -65,6 +65,6 @@ func Panicf(format string, args ...any) {
 }
 
 // AddContext returns a new logger with the context added.
-func AddContext(ctx Ctx) Logger {
+func AddContext(ctx Ctx) Entry {
 	return Log.AddContext(ctx)
 }
